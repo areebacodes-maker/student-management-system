@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batches</title>
+</head>
+<body>
+    <h1>All Batches</h1>
+    @foreach ($batches as $batch)
+    <p>{{ $batch->batch_name }}</p>
+    @endforeach
+</body>
+</html>
