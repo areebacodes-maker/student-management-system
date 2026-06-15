@@ -23,7 +23,7 @@ class BatchController extends Controller
      */
     public function create()
     {
-        //
+        return view('batches.create');
     }
 
     /**
@@ -31,7 +31,15 @@ class BatchController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'batch_name' => 'required|max:255'
+        ]);
+
+         Batch::create([
+        'batch_name' => $request->batch_name
+    ]);
+
+    return redirect('/batches');
     }
 
     /**

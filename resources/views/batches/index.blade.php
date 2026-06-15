@@ -7,6 +7,11 @@
 </head>
 <body>
     <h1>All Batches</h1>
+    
+    <a href="/batches/create">Add New Batch</a>
+
+    <hr>
+
     @foreach ($batches as $batch)
     <p>{{ $batch->batch_name }}</p>
     @endforeach

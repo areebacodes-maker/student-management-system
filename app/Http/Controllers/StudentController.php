@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
+use App\Models\Batch;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -11,7 +13,9 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
+         $students = Student::with('batch')->get();
+
+    return view('students.index', compact('students'));
     }
 
     /**
@@ -19,7 +23,9 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+         $batches = Batch::all();
+
+    return view('students.create', compact('batches'));
     }
 
     /**
@@ -27,7 +33,23 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $request->validate([
+        'name' => 'required|max:255',
+        'email' => 'required|email|unique:students,email',
+        'phone' => 'required',
+        'city' => 'required',
+        'batch_id' => 'required|exists:batches,id',
+    ]);
+
+    Student::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'phone' => $request->phone,
+        'city' => $request->city,
+        'batch_id' => $request->batch_id,
+    ]);
+
+    return redirect('/students/create');
     }
 
     /**
