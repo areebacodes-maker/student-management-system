@@ -7,6 +7,10 @@
 
     <h1>All Students</h1>
 
+@if (session('success'))
+    <p>{{ session('success') }}</p>
+@endif
+
     <a href="/students/create">Add New Student</a>
 
     <hr>

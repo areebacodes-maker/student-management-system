@@ -29,7 +29,7 @@
                 </option>
             @endforeach
         </select>
-
+<a href="/batches/create" target="_blank">+ Add New Batch</a>
         <br><br>
 
         <button type="submit">Save Student</button>

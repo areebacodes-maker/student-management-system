@@ -7,13 +7,35 @@
 </head>
 <body>
     <h1>All Batches</h1>
+
+    @if (session('success'))
+    <p>{{ session('success') }}</p>
+@endif
+
+@if (session('error'))
+    <p>{{ session('error') }}</p>
+@endif
     
     <a href="/batches/create">Add New Batch</a>
 
     <hr>
 
+    <ul>
     @foreach ($batches as $batch)
-    <p>{{ $batch->batch_name }}</p>
+        <li>
+            {{ $batch->batch_name }}
+
+            <a href="/batches/{{ $batch->id }}/edit">Edit</a>
+            
+             <form action="/batches/{{ $batch->id }}" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+
+                <button type="submit">Delete</button>
+            </form>
+
+        </li>
     @endforeach
+</ul>
 </body>
 </html>

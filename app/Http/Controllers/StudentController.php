@@ -49,7 +49,11 @@ class StudentController extends Controller
         'batch_id' => $request->batch_id,
     ]);
 
-    return redirect('/students/create');
+    // return redirect('/students/create');
+
+    return redirect()
+    ->route('students.index')
+    ->with('success', 'Student added successfully!');
     }
 
     /**
