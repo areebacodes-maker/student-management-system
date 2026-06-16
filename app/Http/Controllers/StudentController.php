@@ -11,12 +11,19 @@ class StudentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-         $students = Student::with('batch')->get();
+    public function index(Request $request)
+{
+    $search = $request->search;
 
-    return view('students.index', compact('students'));
-    }
+    $students = Student::with('batch')
+        ->when($search, function ($query, $search) {
+            return $query->where('name', 'like', "%{$search}%");
+        })
+        ->paginate(7)
+        ->withQueryString();
+
+    return view('students.index', compact('students', 'search'));
+}
 
     /**
      * Show the form for creating a new resource.

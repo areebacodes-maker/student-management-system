@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <title>All Students</title>
@@ -49,4 +49,75 @@
     </table>
 
 </body>
-</html>
+</html> -->
+
+@extends('layouts.app')
+
+@section('content')
+
+<h1>All Students</h1>
+
+<form action="/students" method="GET" class="mb-3 d-flex gap-2">
+
+    <input
+        type="text"
+        name="search"
+        value="{{ $search }}"
+        class="form-control"
+        placeholder="Search by student name">
+
+    <button class="btn btn-primary">
+        Search
+    </button>
+
+</form>
+
+<a href="/students/create" class="btn btn-primary mb-3">
+    Add New Student
+</a>
+
+<table class="table table-bordered table-striped">
+
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>City</th>
+        <th>Batch</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach ($students as $student)
+    <tr>
+        <td>{{ $student->name }}</td>
+        <td>{{ $student->email }}</td>
+        <td>{{ $student->phone }}</td>
+        <td>{{ $student->city }}</td>
+        <td>{{ $student->batch->batch_name }}</td>
+        <td>
+            <a href="/students/{{ $student->id }}/edit"
+               class="btn btn-warning btn-sm">
+                Edit
+            </a>
+
+            <form action="/students/{{ $student->id }}"
+                  method="POST"
+                  style="display:inline;">
+                @csrf
+                @method('DELETE')
+
+                <button class="btn btn-danger btn-sm">
+                    Delete
+                </button>
+            </form>
+        </td>
+    </tr>
+    @endforeach
+
+</table>
+
+<div class="mt-3">
+    {{ $students->links() }}
+</div>
+
+@endsection

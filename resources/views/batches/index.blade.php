@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -38,4 +38,47 @@
     @endforeach
 </ul>
 </body>
-</html>
+</html> -->
+
+@extends('layouts.app')
+
+@section('content')
+
+<h1>All Batches</h1>
+
+<a href="/batches/create" class="btn btn-primary mb-3">
+    Add New Batch
+</a>
+
+<table class="table table-bordered">
+
+    <tr>
+        <th>ID</th>
+        <th>Batch Name</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach ($batches as $batch)
+    <tr>
+        <td>{{ $batch->id }}</td>
+        <td>{{ $batch->batch_name }}</td>
+        <td>
+            <a href="/batches/{{ $batch->id }}/edit" class="btn btn-warning btn-sm">
+                Edit
+            </a>
+
+            <form action="/batches/{{ $batch->id }}" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+
+                <button class="btn btn-danger btn-sm">
+                    Delete
+                </button>
+            </form>
+        </td>
+    </tr>
+    @endforeach
+
+</table>
+
+@endsection
