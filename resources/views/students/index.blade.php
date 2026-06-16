@@ -23,6 +23,7 @@
             <th>Phone</th>
             <th>City</th>
             <th>Batch</th>
+            <th>Actions</th>
         </tr>
 
         @foreach ($students as $student)
@@ -32,6 +33,16 @@
             <td>{{ $student->phone }}</td>
             <td>{{ $student->city }}</td>
             <td>{{ $student->batch->batch_name }}</td>
+            <td>
+    <a href="/students/{{ $student->id }}/edit">Edit</a>
+
+    <form action="/students/{{ $student->id }}" method="POST" style="display:inline;">
+        @csrf
+        @method('DELETE')
+
+        <button type="submit">Delete</button>
+    </form>
+</td>
         </tr>
         @endforeach
 

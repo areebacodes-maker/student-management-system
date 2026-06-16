@@ -67,24 +67,39 @@ class StudentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+   public function edit(Student $student)
+{
+    $batches = Batch::all();
+
+    return view('students.edit', compact('student', 'batches'));
+}
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    public function update(Request $request, Student $student)
+{
+    $request->validate([
+        'name' => 'required|max:255',
+        'email' => 'required|email|unique:students,email,' . $student->id,
+        'phone' => 'required',
+        'city' => 'required',
+        'batch_id' => 'required|exists:batches,id',
+    ]);
 
+    $student->update($request->all());
+
+    return redirect('/students')
+        ->with('success', 'Student updated successfully.');
+}
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+    public function destroy(Student $student)
+{
+    $student->delete();
+
+    return redirect('/students')
+        ->with('success', 'Student deleted successfully.');
+}
 }
