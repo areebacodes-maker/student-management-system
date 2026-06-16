@@ -64,7 +64,7 @@
         name="search"
         value="{{ $search }}"
         class="form-control"
-        placeholder="Search by student name">
+        placeholder="Search by student or batch name">
 
     <button class="btn btn-primary">
         Search
@@ -79,6 +79,7 @@
 <table class="table table-bordered table-striped">
 
     <tr>
+        <th>#</th>
         <th>Name</th>
         <th>Email</th>
         <th>Phone</th>
@@ -89,6 +90,7 @@
 
     @foreach ($students as $student)
     <tr>
+        <td>{{ $students->firstItem() + $loop->index }}</td>
         <td>{{ $student->name }}</td>
         <td>{{ $student->email }}</td>
         <td>{{ $student->phone }}</td>
@@ -106,9 +108,13 @@
                 @csrf
                 @method('DELETE')
 
-                <button class="btn btn-danger btn-sm">
-                    Delete
-                </button>
+               
+
+                <button
+    class="btn btn-danger btn-sm"
+    onclick="return confirm('Are you sure you want to delete this student?')">
+    Delete
+</button>
             </form>
         </td>
     </tr>

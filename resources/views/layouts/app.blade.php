@@ -11,12 +11,29 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="/">SMS</a>
 
-        <div class="navbar-nav">
-            <a class="nav-link" href="/batches">Batches</a>
-            <a class="nav-link" href="/students">Students</a>
+        <a class="navbar-brand" href="/students">
+            Student Management System
+        </a>
+
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link" href="/students">
+                Students
+            </a>
+
+            <a class="nav-link" href="/batches">
+                Batches
+            </a>
+
+            <a class="nav-link" href="/students/create">
+                Add Student
+            </a>
+
+            <a class="nav-link" href="/batches/create">
+                Add Batch
+            </a>
         </div>
+
     </div>
 </nav>
 

@@ -71,9 +71,11 @@
                 @csrf
                 @method('DELETE')
 
-                <button class="btn btn-danger btn-sm">
-                    Delete
-                </button>
+               <button
+    class="btn btn-danger btn-sm"
+    onclick="return confirm('Are you sure you want to delete this batch?')">
+    Delete
+</button>
             </form>
         </td>
     </tr>

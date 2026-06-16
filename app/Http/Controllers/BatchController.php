@@ -39,7 +39,9 @@ class BatchController extends Controller
         'batch_name' => $request->batch_name
     ]);
 
-    return redirect('/batches');
+    return redirect()
+     ->route('batches.index')
+        ->with('success', 'Batch added successfully.');
     }
 
     /**

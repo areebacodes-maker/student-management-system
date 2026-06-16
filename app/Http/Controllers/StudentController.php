@@ -16,11 +16,14 @@ class StudentController extends Controller
     $search = $request->search;
 
     $students = Student::with('batch')
-        ->when($search, function ($query, $search) {
-            return $query->where('name', 'like', "%{$search}%");
-        })
-        ->paginate(7)
-        ->withQueryString();
+    ->when($search, function ($query, $search) {
+        $query->where('name', 'like', "%{$search}%")
+              ->orWhereHas('batch', function ($q) use ($search) {
+                  $q->where('batch_name', 'like', "%{$search}%");
+              });
+    })
+    ->paginate(5)
+    ->withQueryString();
 
     return view('students.index', compact('students', 'search'));
 }
