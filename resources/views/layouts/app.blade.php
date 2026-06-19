@@ -25,25 +25,41 @@
 
             @auth
                 <div class="navbar-nav ms-auto">
+                   
+<a class="nav-link {{ request()->routeIs('dashboard') ? 'active fw-bold text-warning' : '' }}"
+   href="{{ route('dashboard') }}">
+    Dashboard
+</a>
 
-                    <a class="nav-link" href="{{ route('students.index') }}">
+                   <a class="nav-link {{ request()->routeIs('students.*') ? 'active fw-bold text-warning' : '' }}"
+                      href="{{ route('students.index') }}">
                         Students
                     </a>
 
-                    <a class="nav-link" href="{{ route('batches.index') }}">
-                        Batches
+                    <a class="nav-link {{ request()->routeIs('batches.*') ? 'active fw-bold text-warning' : '' }}"
+                        href="{{ route('batches.index') }}">
+                          Batches
                     </a>
+                      
+                    
 
-                    <a class="nav-link" href="{{ route('students.create') }}">
-                        Add Student
-                    </a>
+                    <a class="nav-link {{ request()->routeIs('students.create') ? 'active fw-bold text-warning' : '' }}"
+   href="{{ route('students.create') }}">
+    Add Student
+</a>
 
-                    <a class="nav-link" href="{{ route('batches.create') }}">
-                        Add Batch
-                    </a>
+<a class="nav-link {{ request()->routeIs('batches.create') ? 'active fw-bold text-warning' : '' }}"
+   href="{{ route('batches.create') }}">
+    Add Batch
+</a>
 
                     <form method="POST" action="{{ route('logout') }}" class="ms-3">
                         @csrf
+
+
+                    <span class="navbar-text text-white me-3">
+                        Welcome, {{ Auth::user()->name }}
+                    </span>
 
                         <button type="submit" class="btn btn-danger btn-sm">
                             Logout
