@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\BatchController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Student;
+use App\Models\Batch;
 
 Route::get('/', function () {
     return view('welcome');
@@ -12,8 +14,13 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+
+    $studentsCount = Student::count();
+    $batchesCount = Batch::count();
+
+    return view('dashboard', compact('studentsCount', 'batchesCount'));
+
+})->middleware(['auth'])->name('dashboard');
 
     Route::resource('students', StudentController::class);
 
