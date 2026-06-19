@@ -8,8 +8,13 @@ use App\Models\Student;
 use App\Models\Batch;
 
 Route::get('/', function () {
-    return view('welcome');
-});
+
+    $studentsCount = Student::count();
+    $batchesCount = Batch::count();
+
+    return view('dashboard', compact('studentsCount', 'batchesCount'));
+
+})->middleware(['auth'])->name('home');
 
 Route::middleware(['auth'])->group(function () {
 
