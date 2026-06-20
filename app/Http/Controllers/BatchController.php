@@ -11,12 +11,18 @@ class BatchController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $batches = Batch::all();
+    public function index(Request $request)
+{
+    $search = $request->search;
 
-          return view('batches.index', compact('batches'));
-    }
+    $batches = Batch::when($search, function ($query) use ($search) {
+        $query->where('batch_name', 'like', '%' . $search . '%');
+    })
+    ->paginate(5)
+    ->withQueryString();
+
+    return view('batches.index', compact('batches', 'search'));
+}
 
     /**
      * Show the form for creating a new resource.

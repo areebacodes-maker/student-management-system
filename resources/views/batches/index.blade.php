@@ -1,44 +1,4 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Batches</title>
-</head>
-<body>
-    <h1>All Batches</h1>
 
-    @if (session('success'))
-    <p>{{ session('success') }}</p>
-@endif
-
-@if (session('error'))
-    <p>{{ session('error') }}</p>
-@endif
-    
-    <a href="/batches/create">Add New Batch</a>
-
-    <hr>
-
-    <ul>
-    @foreach ($batches as $batch)
-        <li>
-            {{ $batch->batch_name }}
-
-            <a href="/batches/{{ $batch->id }}/edit">Edit</a>
-            
-             <form action="/batches/{{ $batch->id }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-
-                <button type="submit">Delete</button>
-            </form>
-
-        </li>
-    @endforeach
-</ul>
-</body>
-</html> -->
 
 @extends('layouts.app')
 
@@ -50,6 +10,21 @@
     Add New Batch
 </a>
 
+<form action="{{ route('batches.index') }}" method="GET" class="mb-3 d-flex gap-2">
+
+    <input
+        type="text"
+        name="search"
+        value="{{ request('search') }}"
+        class="form-control"
+        placeholder="Search batch name">
+
+    <button class="btn btn-primary">
+        Search
+    </button>
+
+</form>
+
 <table class="table table-bordered">
 
     <tr>
@@ -58,7 +33,7 @@
         <th>Actions</th>
     </tr>
 
-    @foreach ($batches as $batch)
+    @forelse ($batches as $batch)
     <tr>
         <td>{{ $batch->id }}</td>
         <td>{{ $batch->batch_name }}</td>
@@ -79,8 +54,18 @@
             </form>
         </td>
     </tr>
-    @endforeach
+    @empty
+<tr>
+    <td colspan="3" class="text-center text-muted">
+        No batches found.
+    </td>
+</tr>
+    @endforelse
 
 </table>
+
+<div class="mt-3">
+    {{ $batches->links() }}
+</div>
 
 @endsection
