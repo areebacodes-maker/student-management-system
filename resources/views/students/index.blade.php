@@ -68,37 +68,44 @@
         <th>Actions</th>
     </tr>
 
-    @foreach ($students as $student)
-    <tr>
-        <td>{{ $students->firstItem() + $loop->index }}</td>
-        <td>{{ $student->name }}</td>
-        <td>{{ $student->email }}</td>
-        <td>{{ $student->phone }}</td>
-        <td>{{ $student->city }}</td>
-        <td>{{ $student->batch->batch_name }}</td>
-        <td>
-            <a href="/students/{{ $student->id }}/edit"
-               class="btn btn-warning btn-sm">
-                Edit
-            </a>
+   @forelse ($students as $student)
+<tr>
+    <td>{{ $students->firstItem() + $loop->index }}</td>
+    <td>{{ $student->name }}</td>
+    <td>{{ $student->email }}</td>
+    <td>{{ $student->phone }}</td>
+    <td>{{ $student->city }}</td>
+    <td>{{ $student->batch->batch_name }}</td>
+    <td>
+        <a href="/students/{{ $student->id }}/edit"
+           class="btn btn-warning btn-sm">
+            Edit
+        </a>
 
-            <form action="/students/{{ $student->id }}"
-                  method="POST"
-                  style="display:inline;">
-                @csrf
-                @method('DELETE')
+        <form action="/students/{{ $student->id }}"
+              method="POST"
+              style="display:inline;">
+            @csrf
+            @method('DELETE')
 
-               
+            <button
+                class="btn btn-danger btn-sm"
+                onclick="return confirm('Are you sure you want to delete this student?')">
+                Delete
+            </button>
+        </form>
+    </td>
+</tr>
 
-                <button
-    class="btn btn-danger btn-sm"
-    onclick="return confirm('Are you sure you want to delete this student?')">
-    Delete
-</button>
-            </form>
-        </td>
-    </tr>
-    @endforeach
+@empty
+
+<tr>
+    <td colspan="7" class="text-center text-muted">
+        No students found.
+    </td>
+</tr>
+
+@endforelse
 
 </table>
 
