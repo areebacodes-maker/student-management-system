@@ -1,55 +1,4 @@
-<!-- <!DOCTYPE html>
-<html>
-<head>
-    <title>All Students</title>
-</head>
-<body>
 
-    <h1>All Students</h1>
-
-@if (session('success'))
-    <p>{{ session('success') }}</p>
-@endif
-
-    <a href="/students/create">Add New Student</a>
-
-    <hr>
-
-    <table border="1" cellpadding="10">
-
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>City</th>
-            <th>Batch</th>
-            <th>Actions</th>
-        </tr>
-
-        @foreach ($students as $student)
-        <tr>
-            <td>{{ $student->name }}</td>
-            <td>{{ $student->email }}</td>
-            <td>{{ $student->phone }}</td>
-            <td>{{ $student->city }}</td>
-            <td>{{ $student->batch->batch_name }}</td>
-            <td>
-    <a href="/students/{{ $student->id }}/edit">Edit</a>
-
-    <form action="/students/{{ $student->id }}" method="POST" style="display:inline;">
-        @csrf
-        @method('DELETE')
-
-        <button type="submit">Delete</button>
-    </form>
-</td>
-        </tr>
-        @endforeach
-
-    </table>
-
-</body>
-</html> -->
 
 @extends('layouts.app')
 
@@ -57,24 +6,55 @@
 
 <h1>All Students</h1>
 
-<form action="/students" method="GET" class="mb-3 d-flex gap-2">
 
-    <input
-        type="text"
-        name="search"
-        value="{{ $search }}"
-        class="form-control"
-        placeholder="Search by student or batch name">
-
-    <button class="btn btn-primary">
-        Search
-    </button>
-
-</form>
 
 <a href="/students/create" class="btn btn-primary mb-3">
     Add New Student
 </a>
+
+<form method="GET" action="{{ route('students.index') }}" class="row g-3 mb-4">
+
+    <div class="col-md-4">
+        <input
+            type="text"
+            name="search"
+            class="form-control"
+            placeholder="Search student or batch..."
+            value="{{ request('search') }}">
+    </div>
+
+    <div class="col-md-3">
+        <select name="batch_id" class="form-select">
+            <option value="">All Batches</option>
+
+            @foreach($batches as $batch)
+                <option value="{{ $batch->id }}"
+                    {{ request('batch_id') == $batch->id ? 'selected' : '' }}>
+                    {{ $batch->batch_name }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <select name="sort" class="form-select">
+            <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>
+                Name A → Z
+            </option>
+
+            <option value="desc" {{ request('sort') == 'desc' ? 'selected' : '' }}>
+                Name Z → A
+            </option>
+        </select>
+    </div>
+
+    <div class="col-md-2 d-grid">
+        <button type="submit" class="btn btn-primary">
+            Apply
+        </button>
+    </div>
+
+</form>
 
 <table class="table table-bordered table-striped">
 

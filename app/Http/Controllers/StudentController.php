@@ -11,21 +11,34 @@ class StudentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+   public function index(Request $request)
 {
-    $search = $request->search;
+    $query = Student::with('batch');
 
-    $students = Student::with('batch')
-    ->when($search, function ($query, $search) {
-        $query->where('name', 'like', "%{$search}%")
-              ->orWhereHas('batch', function ($q) use ($search) {
-                  $q->where('batch_name', 'like', "%{$search}%");
+    // Search
+    if ($request->filled('search')) {
+        $query->where(function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->search . '%')
+              ->orWhereHas('batch', function ($batchQuery) use ($request) {
+                  $batchQuery->where('batch_name', 'like', '%' . $request->search . '%');
               });
-    })
-    ->paginate(5)
-    ->withQueryString();
+        });
+    }
 
-    return view('students.index', compact('students', 'search'));
+    // Batch Filter
+    if ($request->filled('batch_id')) {
+        $query->where('batch_id', $request->batch_id);
+    }
+
+    // Sorting
+    $sort = $request->get('sort', 'asc');
+    $query->orderBy('name', $sort);
+
+    $students = $query->paginate(5)->withQueryString();
+
+    $batches = Batch::all();
+
+    return view('students.index', compact('students', 'batches'));
 }
 
     /**
